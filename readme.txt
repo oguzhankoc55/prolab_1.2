@@ -1,5 +1,5 @@
-Oguzhan Koc -190201184         
-Yusuf Arslan - 190201183
+Oguzhan Koc       
+Yusuf Arslan
 
 main class calıştırıldıktan sonra acılan oyun ekranında oyun 
 oynanmak isteniyorsa play tuşuna basılır ,oyundan çıkılmak 
