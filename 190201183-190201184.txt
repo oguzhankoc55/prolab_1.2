@@ -1,0 +1,2154 @@
+
+import java.awt.EventQueue;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.ImageIcon;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+import javax.swing.JLabel;
+import javax.swing.JButton;
+
+
+
+public class main extends JFrame {
+
+	private JPanel contentPane;
+
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					main frame = new main();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the frame.
+	 */
+	public main() {
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(0, 0, 1600, 900);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		setContentPane(contentPane);
+		contentPane.setLayout(null);
+		
+		JButton Quit = new JButton(new ImageIcon(getClass().getResource("Quit.png")));
+		Quit.setBounds(653, 460, 128, 128);
+		contentPane.add(Quit);
+		
+		JButton Start = new JButton(new ImageIcon(getClass().getResource("play.png")));
+		Start.setBounds(653, 153, 128, 128);
+		contentPane.add(Start);
+		
+		JLabel lblNewLabel = new JLabel(new ImageIcon(getClass().getResource("Baslangic_ekrani.png")));
+		lblNewLabel.setBounds(0, -35, 1530, 870);
+		contentPane.add(lblNewLabel);
+		
+		//main classini kapatip oyun classini acar
+		Start.addActionListener(new ActionListener()  {
+					
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				
+				Oyun frame = new Oyun();
+				main anamenu=new main();
+				anamenu.setVisible(false);
+				frame.setVisible(true);				
+			}	
+	});
+		//oyundan cikar
+		Quit.addActionListener(new ActionListener()  {
+									
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				
+				Oyun frame = new Oyun();
+				main anamenu=new main();
+				System.exit(0);
+			}	
+	});
+}
+}
+
+
+
+
+
+
+import java.awt.EventQueue;
+
+import javax.swing.ImageIcon;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+import javax.swing.JLabel;
+import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import java.util.Random;
+import javax.swing.JTextPane;
+import java.awt.Font;
+public class Oyun extends JFrame {
+	
+	
+	test testim=new test();								//test class'ında nesne olusturuldu
+	bilgisayar pc=new bilgisayar(0,"compiter", 0);		//bilgisayar class'inda nesne olusturuldu
+	kullanıcı person=new kullanıcı(1,"person", 0);		//kullanici class'inda nesne olusturuldu
+	int sayac=0;										
+	int person_sonskor;
+	int pc_sonskor;
+	private JPanel contentPane;
+
+	
+	public static void main(String[] args) {
+		
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					
+					Oyun frame = new Oyun();
+					frame.setVisible(true);		//oyun ekrani acildi
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	
+	public Oyun() {
+		
+		
+        testim.testim();
+        testim.karistir();
+		setResizable(false);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(0, 0, 1600, 900);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		setContentPane(contentPane);
+		contentPane.setLayout(null);
+		//kullanici icin futbolcu butonlari  olusturuldu ve resimler atandı
+		JButton Kullanicifutbol_1 = new JButton(new ImageIcon(getClass().getResource(testim.kullaniciFutbolcuKart.get(1).getImg())));
+		Kullanicifutbol_1.setBounds(127, 550, 100, 180);
+		contentPane.add(Kullanicifutbol_1);
+		
+		JButton Kullanicifutbol_2 = new JButton(new ImageIcon(getClass().getResource(testim.kullaniciFutbolcuKart.get(2).getImg())));
+		Kullanicifutbol_2.setBounds(252, 550, 100, 180);
+		contentPane.add(Kullanicifutbol_2);
+		
+		JButton Kullanicifutbol_3 = new JButton(new ImageIcon(getClass().getResource(testim.kullaniciFutbolcuKart.get(3).getImg())));
+		Kullanicifutbol_3.setBounds(376, 550, 100, 180);
+		contentPane.add(Kullanicifutbol_3);
+		
+		JButton Kullanicifutbol_0 = new JButton(new ImageIcon(getClass().getResource(testim.kullaniciFutbolcuKart.get(0).getImg())));
+		Kullanicifutbol_0.setBounds(10, 550, 100, 180);
+		contentPane.add(Kullanicifutbol_0);
+		//bilgisayar icin futbolcu butonlari  olusturuldu ve resimler atandı
+		JButton Bilgisayarfutbol_0 = new JButton(new ImageIcon(getClass().getResource("Kart_Arka.png")));
+		Bilgisayarfutbol_0.setVisible(true);
+		Bilgisayarfutbol_0.setBounds(81, 11, 100, 180);
+		contentPane.add(Bilgisayarfutbol_0);
+		
+		JButton Bilgisayarfutbol_1 = new JButton(new ImageIcon(getClass().getResource("Kart_Arka.png")));
+		Bilgisayarfutbol_1.setVisible(true);
+		Bilgisayarfutbol_1.setBounds(127, 11, 100, 180);
+		contentPane.add(Bilgisayarfutbol_1);
+		
+		JButton Bilgisayarfutbol_2 = new JButton(new ImageIcon(getClass().getResource("Kart_Arka.png")));
+		Bilgisayarfutbol_2.setVisible(true);
+		Bilgisayarfutbol_2.setBounds(191, 11, 100, 180);
+		contentPane.add(Bilgisayarfutbol_2);
+		
+		JButton Bilgisayarfutbol_3 = new JButton(new ImageIcon(getClass().getResource("Kart_Arka.png")));
+		Bilgisayarfutbol_3.setVisible(true);
+		Bilgisayarfutbol_3.setBounds(252, 11, 100, 180);
+		contentPane.add(Bilgisayarfutbol_3);
+		//kullanici icin basketbolcu butonlari  olusturuldu ve resimler atandı
+		JButton Kullanicibasketbol_0 = new JButton(new ImageIcon(getClass().getResource(testim.kullaniciBasketbolcuKart.get(0).getImg())));
+		Kullanicibasketbol_0.setBounds(517, 550, 100, 180);
+		Kullanicibasketbol_0.setEnabled(false);
+		contentPane.add(Kullanicibasketbol_0);
+		
+		JButton Kullanicibasketbol_1 = new JButton(new ImageIcon(getClass().getResource(testim.kullaniciBasketbolcuKart.get(1).getImg())));
+		Kullanicibasketbol_1.setBounds(633, 550, 100, 180);
+		Kullanicibasketbol_1.setEnabled(false);
+		contentPane.add(Kullanicibasketbol_1);
+		
+		JButton Kullanicibasketbol_2 = new JButton(new ImageIcon(getClass().getResource(testim.kullaniciBasketbolcuKart.get(2).getImg())));
+		Kullanicibasketbol_2.setBounds(765, 550, 100, 180);
+		Kullanicibasketbol_2.setEnabled(false);
+		contentPane.add(Kullanicibasketbol_2);
+		
+		JButton Kullanicibasketbol_3 = new JButton(new ImageIcon(getClass().getResource(testim.kullaniciBasketbolcuKart.get(3).getImg())));
+		Kullanicibasketbol_3.setBounds(885, 550, 100, 180);
+		Kullanicibasketbol_3.setEnabled(false);
+		contentPane.add(Kullanicibasketbol_3);
+		//bilgisayar icin basketbolcu butonlari  olusturuldu ve resimler atandı
+		JButton Bilgisayarbasketbol_0 = new JButton(new ImageIcon(getClass().getResource("Kart_Arka.png")));
+		Bilgisayarbasketbol_0.setVisible(true);
+		Bilgisayarbasketbol_0.setBounds(593, 11, 100, 180);
+		contentPane.add(Bilgisayarbasketbol_0);
+		
+		JButton Bilgisayarbasketbol_1 = new JButton(new ImageIcon(getClass().getResource("Kart_Arka.png")));
+		Bilgisayarbasketbol_1.setVisible(true);
+		
+			
+		Bilgisayarbasketbol_1.setBounds(636, 11, 100, 180);
+		contentPane.add(Bilgisayarbasketbol_1);
+		
+		JButton Bilgisayarbasketbol_2 = new JButton(new ImageIcon(getClass().getResource("Kart_Arka.png")));
+		Bilgisayarbasketbol_2.setVisible(true);
+		Bilgisayarbasketbol_2.setBounds(703, 11, 100, 180);
+		contentPane.add(Bilgisayarbasketbol_2);
+		
+		JButton Bilgisayarbasketbol_3 = new JButton(new ImageIcon(getClass().getResource("Kart_Arka.png")));
+		Bilgisayarbasketbol_3.setVisible(true);
+		Bilgisayarbasketbol_3.setBounds(765, 11, 100, 180);
+		contentPane.add(Bilgisayarbasketbol_3);
+		
+		//kullanici icin karsilastirilacak kartlarin bulundugu butonlar olusturuldu
+		JButton KullaniciKart = new JButton(new ImageIcon(getClass().getResource("Kart_Arka.png")));	
+		KullaniciKart.setBounds(1035, 550, 100, 180);
+		contentPane.add(KullaniciKart);
+		
+		//bilgisayar icin karsilastirilacak kartlarin bulundugu butonlar olusturuldu
+		JButton BilgisayarKart = new JButton(new ImageIcon(getClass().getResource("Kart_Arka.png")));	
+		BilgisayarKart.setBounds(1035, 11, 100, 180);
+		contentPane.add(BilgisayarKart);
+				
+		JTextPane Pc_tablo = new JTextPane();
+		Pc_tablo.setFont(new Font("Tahoma", Font.PLAIN, 25));
+		Pc_tablo.setEditable(false);
+		Pc_tablo.setText("Bilgisayar Skor");
+		Pc_tablo.setBounds(1300, 82, 212, 50);
+		contentPane.add(Pc_tablo);
+		//oyuncunun skorunu gosteren text alani
+		JTextPane OyuncununSkoru = new JTextPane();
+		OyuncununSkoru.setFont(new Font("Tahoma", Font.PLAIN, 25));
+		OyuncununSkoru.setEditable(false);		
+		OyuncununSkoru.setText(""+person.getScor());
+		OyuncununSkoru.setBounds(1300, 585, 212, 50);
+		contentPane.add(OyuncununSkoru);
+		
+		//bilgisayarin skorunu gosteren text alani
+		JTextPane BilgisayarinSkoru = new JTextPane();
+		BilgisayarinSkoru.setFont(new Font("Tahoma", Font.PLAIN, 25));
+		BilgisayarinSkoru.setEditable(false);
+		BilgisayarinSkoru.setText(""+pc.getScor());
+		BilgisayarinSkoru.setBounds(1300, 205, 212, 50);
+		contentPane.add(BilgisayarinSkoru);
+		
+		JTextPane Oyuncu_tablo = new JTextPane();
+		Oyuncu_tablo.setFont(new Font("Tahoma", Font.PLAIN, 25));
+		Oyuncu_tablo.setText("Oyuncu Skor");
+		Oyuncu_tablo.setEditable(false);
+		Oyuncu_tablo.setBounds(1300, 440, 212, 50);
+		contentPane.add(Oyuncu_tablo);
+		
+		
+		JTextPane secilenOzellik_tablo = new JTextPane();
+		secilenOzellik_tablo.setEditable(false);
+		secilenOzellik_tablo.setFont(new Font("Tahoma", Font.PLAIN, 30));
+		secilenOzellik_tablo.setText("Secilen Ozellik:");
+		secilenOzellik_tablo.setBounds(992, 205, 271, 71);
+		contentPane.add(secilenOzellik_tablo);
+		//kullaniciya yonlendirmeler ve sonucun yazildigi text alani olusturulmustur
+		JTextPane araMetin = new JTextPane();
+		araMetin.setEditable(false);
+		araMetin.setFont(new Font("Tahoma", Font.PLAIN, 30));
+		araMetin.setText("Futbolcu Seciniz");
+		araMetin.setBounds(300, 352, 344, 80);
+		contentPane.add(araMetin);
+		
+		//rastgele secilenozelligi gosteren text alanı
+		JTextPane SecilenOzellik = new JTextPane();
+		SecilenOzellik.setFont(new Font("Tahoma", Font.PLAIN, 30));
+		SecilenOzellik.setText("");
+		SecilenOzellik.setEditable(false);
+		SecilenOzellik.setBounds(992, 470, 271, 71);
+		contentPane.add(SecilenOzellik);
+		//arkaplan resimleri olusturuldu
+		JLabel lblNewLabel = new JLabel(new ImageIcon(getClass().getResource("Arkaplan.png")));
+		lblNewLabel.setBounds(-91, 0, 1155, 844);
+		contentPane.add(lblNewLabel);
+		
+		JLabel lblNewLabel_1 = new JLabel(new ImageIcon(getClass().getResource("VS.png")));
+		lblNewLabel_1.setBounds(992, 0, 271, 844);
+		contentPane.add(lblNewLabel_1);
+		
+		JLabel lblNewLabel_1_1 = new JLabel(new ImageIcon(getClass().getResource("skor_arkaplan.jpg")));
+		lblNewLabel_1_1.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		lblNewLabel_1_1.setBounds(1262, 0, 288, 844);
+		contentPane.add(lblNewLabel_1_1);
+		
+	 		//bilgisayarin futbolcu kartlarinin atanmasi
+		int [ ][] bilgisayarF ; 
+		bilgisayarF = new int [4][3]; 
+        Random r = new Random();
+        int sayi=r.nextInt(4);
+        for (int i = 0; i < bilgisayarF.length; i++) { 
+
+        	if(bilgisayarF[sayi][1]==1) {
+        		while(bilgisayarF[sayi][1]==1) {
+        			sayi=r.nextInt(4);
+        		}      	
+        	}       	
+        	bilgisayarF[sayi][1]=1;
+        	bilgisayarF[sayi][2]=i;
+        }
+
+      //bilgisayarin basketbolcu kartlarinin atanmasi        
+        int [ ][] bilgisayarB ; 
+        bilgisayarB = new int [4][3]; 
+        Random a = new Random(4); 
+        sayi=a.nextInt(4);
+        for (int i = 0; i < bilgisayarB.length; i++) { 
+        	if(bilgisayarB[sayi][1]==1) {
+        		while(bilgisayarB[sayi][1]==1) {
+        			sayi=a.nextInt(4);
+        		}      	
+        	}        	
+         	bilgisayarB[sayi][1]=1;
+         	bilgisayarB[sayi][2]=i;
+        }
+        			//kulanici icin basketbol kartlari olusturuldu
+			Kullanicibasketbol_0.addActionListener(new ActionListener()  {	//	
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					// TODO Auto-generated method stub
+					Kullanicibasketbol_0.setVisible(false);
+					Kullanicibasketbol_0.setEnabled(false);
+					Kullanicibasketbol_1.setEnabled(false);		//basketbolcu karti secildikten sonra kulaniminin kapatilmasi
+					Kullanicibasketbol_2.setEnabled(false);
+					Kullanicibasketbol_3.setEnabled(false);
+					Kullanicifutbol_0.setEnabled(true);
+					Kullanicifutbol_1.setEnabled(true);			//futbolcu kartlarinin kullanima acilmasi
+					Kullanicifutbol_2.setEnabled(true);
+					Kullanicifutbol_3.setEnabled(true);
+					Bilgisayarbasketbol_0.setVisible(false);
+					araMetin.setText("Futbolcu Seciniz");
+												
+					KullaniciKart.setIcon(new ImageIcon(getClass().getResource(testim.kullaniciBasketbolcuKart.get(0).getImg())));
+					BilgisayarKart.setIcon(new ImageIcon(getClass().getResource(testim.bilgisayarBasketbolcuKart.get(bilgisayarB[0][2]).getImg())));					
+					karsilastirBasketbolcu(0,bilgisayarB[0][2]);					
+					OyuncununSkoru.setText(""+person.getScor());
+					BilgisayarinSkoru.setText(""+pc.getScor());
+					
+					sayac++;
+					if(sayac==4) { 
+						araMetin.setVisible(false);
+					}
+					sonuc_goster(sayac); 										
+				}				
+			});
+			
+			Kullanicibasketbol_1.addActionListener(new ActionListener()  {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					// TODO Auto-generated method stub
+					Kullanicibasketbol_1.setVisible(false);
+					Kullanicibasketbol_0.setEnabled(false);
+					Kullanicibasketbol_1.setEnabled(false);//basketbolcu karti secildikten sonra kulaniminin kapatilmasi
+					Kullanicibasketbol_2.setEnabled(false);
+					Kullanicibasketbol_3.setEnabled(false);
+					Kullanicifutbol_0.setEnabled(true);
+					Kullanicifutbol_1.setEnabled(true);
+					Kullanicifutbol_2.setEnabled(true);//futbolcu kartlarinin kullanima acilmasi
+					Kullanicifutbol_3.setEnabled(true);
+					Bilgisayarbasketbol_1.setVisible(false);
+					araMetin.setText("Futbolcu Seciniz");
+					
+					KullaniciKart.setIcon(new ImageIcon(getClass().getResource(testim.kullaniciBasketbolcuKart.get(1).getImg())));
+					BilgisayarKart.setIcon(new ImageIcon(getClass().getResource(testim.bilgisayarBasketbolcuKart.get(bilgisayarB[1][2]).getImg())));					
+					karsilastirBasketbolcu(1,bilgisayarB[1][2]);					
+					OyuncununSkoru.setText(""+person.getScor());
+					BilgisayarinSkoru.setText(""+pc.getScor());
+					
+					sayac++;
+					if(sayac==4) { 
+						araMetin.setVisible(false);
+					}
+					sonuc_goster(sayac);  		
+				}				
+			});
+			
+			Kullanicibasketbol_2.addActionListener(new ActionListener()  {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					// TODO Auto-generated method stub
+					Kullanicibasketbol_2.setVisible(false);
+					Kullanicibasketbol_0.setEnabled(false);
+					Kullanicibasketbol_1.setEnabled(false);//basketbolcu karti secildikten sonra kulaniminin kapatilmasi
+					Kullanicibasketbol_2.setEnabled(false);
+					Kullanicibasketbol_3.setEnabled(false);
+					Kullanicifutbol_0.setEnabled(true);
+					Kullanicifutbol_1.setEnabled(true);//futbolcu kartlarinin kullanima acilmasi
+					Kullanicifutbol_2.setEnabled(true);
+					Kullanicifutbol_3.setEnabled(true);
+					Bilgisayarbasketbol_2.setVisible(false);
+					araMetin.setText("Futbolcu Seciniz");
+					
+					KullaniciKart.setIcon(new ImageIcon(getClass().getResource(testim.kullaniciBasketbolcuKart.get(2).getImg())));
+					BilgisayarKart.setIcon(new ImageIcon(getClass().getResource(testim.bilgisayarBasketbolcuKart.get(bilgisayarB[2][2]).getImg())));					
+					karsilastirBasketbolcu(2,bilgisayarB[2][2]);					
+					OyuncununSkoru.setText(""+person.getScor());
+					BilgisayarinSkoru.setText(""+pc.getScor());
+					
+					sayac++;
+					if(sayac==4) { 
+						araMetin.setVisible(false);
+					}
+					sonuc_goster(sayac);  						
+				}				
+			});
+			
+			Kullanicibasketbol_3.addActionListener(new ActionListener()  {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					// TODO Auto-generated method stub
+					Kullanicibasketbol_3.setVisible(false);
+					Kullanicibasketbol_0.setEnabled(false);
+					Kullanicibasketbol_1.setEnabled(false);//basketbolcu karti secildikten sonra kulaniminin kapatilmasi
+					Kullanicibasketbol_2.setEnabled(false);
+					Kullanicibasketbol_3.setEnabled(false);
+					Kullanicifutbol_0.setEnabled(true);
+					Kullanicifutbol_1.setEnabled(true);
+					Kullanicifutbol_2.setEnabled(true);//futbolcu kartlarinin kullanima acilmasi
+					Kullanicifutbol_3.setEnabled(true);
+					Bilgisayarbasketbol_3.setVisible(false);
+					araMetin.setText("Futbolcu Seciniz");
+					
+					KullaniciKart.setIcon(new ImageIcon(getClass().getResource(testim.kullaniciBasketbolcuKart.get(3).getImg())));
+					BilgisayarKart.setIcon(new ImageIcon(getClass().getResource(testim.bilgisayarBasketbolcuKart.get(bilgisayarB[3][2]).getImg())));					
+					karsilastirBasketbolcu(3,bilgisayarB[3][2]);				
+					OyuncununSkoru.setText(""+person.getScor());
+					BilgisayarinSkoru.setText(""+pc.getScor());
+					
+					sayac++;
+					if(sayac==4) { 
+						araMetin.setVisible(false);
+					}
+					sonuc_goster(sayac);  								
+				}				
+			});
+			
+			//kulanici icin futbolcu kartlari olusturuldu
+			Kullanicifutbol_0.addActionListener(new ActionListener()  {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					// TODO Auto-generated method stub
+					Kullanicifutbol_0.setVisible(false);
+					Kullanicifutbol_0.setEnabled(false);
+					Kullanicifutbol_1.setEnabled(false);//futbolcu karti secildikten sonra kulaniminin kapatilmasi
+					Kullanicifutbol_2.setEnabled(false);
+					Kullanicifutbol_3.setEnabled(false);
+					Kullanicibasketbol_0.setEnabled(true);
+					Kullanicibasketbol_1.setEnabled(true);
+					Kullanicibasketbol_2.setEnabled(true);//basketbolcu kartlarinin kullanima acilmasi
+					Kullanicibasketbol_3.setEnabled(true);
+					Bilgisayarfutbol_0.setVisible(false);
+					araMetin.setText("Basketbolcu Seciniz");
+					
+					KullaniciKart.setIcon(new ImageIcon(getClass().getResource(testim.kullaniciFutbolcuKart.get(0).getImg())));
+					BilgisayarKart.setIcon(new ImageIcon(getClass().getResource(testim.bilgisayarFutbolcuKart.get(bilgisayarF[0][2]).getImg())));
+					
+					karsilastirFutbolcu(0,bilgisayarF[0][2]);
+					OyuncununSkoru.setText(""+person.getScor());
+					BilgisayarinSkoru.setText(""+pc.getScor());							
+				}				
+			});
+			
+			Kullanicifutbol_1.addActionListener(new ActionListener()  {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					// TODO Auto-generated method stub
+					Kullanicifutbol_1.setVisible(false);
+					Kullanicifutbol_0.setEnabled(false);
+					Kullanicifutbol_1.setEnabled(false);//futbolcu karti secildikten sonra kulaniminin kapatilmasi
+					Kullanicifutbol_2.setEnabled(false);
+					Kullanicifutbol_3.setEnabled(false);
+					Kullanicibasketbol_0.setEnabled(true);
+					Kullanicibasketbol_1.setEnabled(true);
+					Kullanicibasketbol_2.setEnabled(true);//basketbolcu kartlarinin kullanima acilmasi
+					Kullanicibasketbol_3.setEnabled(true);
+					Bilgisayarfutbol_1.setVisible(false);
+					araMetin.setText("Basketbolcu Seciniz");
+					KullaniciKart.setIcon(new ImageIcon(getClass().getResource(testim.kullaniciFutbolcuKart.get(1).getImg())));
+					BilgisayarKart.setIcon(new ImageIcon(getClass().getResource(testim.bilgisayarFutbolcuKart.get(bilgisayarF[1][2]).getImg())));
+					karsilastirFutbolcu(1,bilgisayarF[1][2]);
+										
+					OyuncununSkoru.setText(""+person.getScor());
+					BilgisayarinSkoru.setText(""+pc.getScor());								
+				}				
+			});
+			
+			Kullanicifutbol_2.addActionListener(new ActionListener()  {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					// TODO Auto-generated method stub
+					Kullanicifutbol_2.setVisible(false);
+					Kullanicifutbol_0.setEnabled(false);
+					Kullanicifutbol_1.setEnabled(false);//futbolcu karti secildikten sonra kulaniminin kapatilmasi
+					Kullanicifutbol_2.setEnabled(false);
+					Kullanicifutbol_3.setEnabled(false);
+					Kullanicibasketbol_0.setEnabled(true);
+					Kullanicibasketbol_1.setEnabled(true);
+					Kullanicibasketbol_2.setEnabled(true);//basketbolcu kartlarinin kullanima acilmasi
+					Kullanicibasketbol_3.setEnabled(true);
+					Bilgisayarfutbol_2.setVisible(false);
+					araMetin.setText("Basketbolcu Seciniz");
+					KullaniciKart.setIcon(new ImageIcon(getClass().getResource(testim.kullaniciFutbolcuKart.get(2).getImg())));
+					BilgisayarKart.setIcon(new ImageIcon(getClass().getResource(testim.bilgisayarFutbolcuKart.get(bilgisayarF[2][2]).getImg())));
+					karsilastirFutbolcu(2,bilgisayarF[2][2]);
+					OyuncununSkoru.setText(""+person.getScor());
+					BilgisayarinSkoru.setText(""+pc.getScor());								 
+				}				
+			});
+			
+			Kullanicifutbol_3.addActionListener(new ActionListener()  {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					// TODO Auto-generated method stub
+					Kullanicifutbol_3.setVisible(false);
+					Kullanicifutbol_0.setEnabled(false);
+					Kullanicifutbol_1.setEnabled(false);//futbolcu karti secildikten sonra kulaniminin kapatilmasi
+					Kullanicifutbol_2.setEnabled(false);
+					Kullanicifutbol_3.setEnabled(false);
+					Kullanicibasketbol_0.setEnabled(true);
+					Kullanicibasketbol_1.setEnabled(true);
+					Kullanicibasketbol_2.setEnabled(true);//basketbolcu kartlarinin kullanima acilmasi
+					Kullanicibasketbol_3.setEnabled(true);
+					Bilgisayarfutbol_3.setVisible(false);
+					araMetin.setText("Basketbolcu Seciniz");
+					KullaniciKart.setIcon(new ImageIcon(getClass().getResource(testim.kullaniciFutbolcuKart.get(3).getImg())));
+					BilgisayarKart.setIcon(new ImageIcon(getClass().getResource(testim.bilgisayarFutbolcuKart.get(bilgisayarF[3][2]).getImg())));
+					karsilastirFutbolcu(3,bilgisayarF[3][2]);
+					OyuncununSkoru.setText(""+person.getScor());
+					BilgisayarinSkoru.setText(""+pc.getScor());														
+				}				
+			});												
+	}
+	
+	public int karistir() {//bilgisayar kartlarini karistirir
+		Random rand=new Random();
+		int sayi=rand.nextInt(4);
+		return sayi;
+	}
+	
+	public void sonuc_goster(int sayac) {	//mac sonucunun yazilmasini saglar	
+		if(sayac==4) {					
+			JTextPane araMetin = new JTextPane();
+			araMetin.setEditable(false);
+			araMetin.setFont(new Font("Tahoma", Font.PLAIN, 30));
+			araMetin.setBounds(300, 352, 360, 80);
+			contentPane.add(araMetin);			
+			person_sonskor=person.getScor();
+			pc_sonskor=pc.getScor();
+			 if(person_sonskor>pc_sonskor) {														
+				 araMetin.setText("Oyuncu Kazandi");									
+				}
+			 else if(person_sonskor<pc_sonskor) {
+				 araMetin.setText("Bilgisayar Kazandi");								
+				}
+			 else {
+				 araMetin.setText("Berabere");
+				}
+		}			
+	}
+						
+	 public void karsilastirBasketbolcu(int sira,int sayi) {//basketbolcularin ozelliklerini karsilastirir
+		 int ozellik=testim.ozellikSec();
+		 JTextPane SecilenOzellik = new JTextPane();
+		 SecilenOzellik.setFont(new Font("Tahoma", Font.PLAIN, 30));
+		 SecilenOzellik.setText("");
+		 SecilenOzellik.setEditable(false);
+		 SecilenOzellik.setBounds(992, 470, 199, 71);
+			contentPane.add(SecilenOzellik);
+						 		 		 	
+ 		if(ozellik==0) { 		 			
+ 			if(testim.bilgisayarBasketbolcuKart.get(sayi).getIkilik()>testim.kullaniciBasketbolcuKart.get(sira).getIkilik()) {				
+ 				pc.puanEkle();
+ 			}else {
+ 				person.puanEkle();				
+ 			} 			
+ 			SecilenOzellik.setText("İkilik");
+ 		}
+ 		
+ 		if(ozellik==1) {			
+ 			if(testim.bilgisayarBasketbolcuKart.get(sayi).getUcluk()>testim.kullaniciBasketbolcuKart.get(sira).getUcluk()) {
+ 				pc.puanEkle();
+ 			}else {
+ 				person.puanEkle();				
+ 			}			
+ 			SecilenOzellik.setText("Ucluk");
+ 		}
+ 		
+ 		if(ozellik==2) { 			
+ 			if(testim.bilgisayarBasketbolcuKart.get(sayi).getS_atis()>testim.kullaniciBasketbolcuKart.get(sira).getS_atis()) {
+ 				pc.puanEkle();
+ 			}else {
+ 				person.puanEkle();
+ 			} 			 			
+ 			SecilenOzellik.setText("S.Atis");
+ 		} 		 						
+	    }
+	 	 	 
+	 public void karsilastirFutbolcu(int sira,int sayi) {//futbolcularin ozelliklerini karsilastirir
+		 JTextPane SecilenOzellik = new JTextPane();
+		 SecilenOzellik.setFont(new Font("Tahoma", Font.PLAIN, 30));
+		 SecilenOzellik.setText("");
+		 SecilenOzellik.setEditable(false);
+		 SecilenOzellik.setBounds(992, 470, 199, 71);
+			contentPane.add(SecilenOzellik);
+	    	    		
+	    		int ozellik=testim.ozellikSec();
+	    			    		
+	    		if(ozellik==0) {	    		    			
+	    			if(testim.bilgisayarFutbolcuKart.get(sayi).getPenalti()>testim.kullaniciFutbolcuKart.get(sira).getPenalti()) {	    				
+	    				pc.puanEkle();
+	    			}else {
+	    				person.puanEkle();	    				
+	    			}	    			
+	    			SecilenOzellik.setText("Penalti");
+	    		}
+	    		
+	    		if(ozellik==1) {	    			
+	    			if(testim.bilgisayarFutbolcuKart.get(sayi).getFrikik()>testim.kullaniciFutbolcuKart.get(sira).getFrikik()) {
+	    				pc.puanEkle();
+	    			}else {
+	    				person.puanEkle();	    				
+	    			}	    			
+	    			SecilenOzellik.setText("Frikik");
+	    		}	    		
+	    		if(ozellik==2) {	    			
+	    			if(testim.bilgisayarFutbolcuKart.get(sayi).getK_karsiya()>testim.kullaniciFutbolcuKart.get(sira).getK_karsiya()) {
+	    				pc.puanEkle();
+	    			}else {
+	    				person.puanEkle();	    				
+	    			}
+	    			SecilenOzellik.setText("K.Karsiya");
+	    		}	    		    		
+	    	}
+}
+
+
+
+
+
+
+/**
+ *
+ * @author Arslan
+ */
+
+
+public class sporcu {
+    
+    private String sporcuIsim;
+    private String sporcuTakim;    
+    public sporcu(){
+        
+    }
+    
+   public sporcu(String sporcu_isim,String sporcu_takim){
+        sporcuIsim=sporcu_isim;
+        sporcuTakim=sporcu_takim;       
+    }
+   
+   public int sporcuPuanGoster(int ozellik1,int ozellik2,int ozellik3){
+       test nesne =new test();
+       int secim=nesne.ozellikSec();
+       int ozellik=5;
+              
+       if(secim==0){
+        ozellik= ozellik1 ; 
+       }
+       if(secim==1){
+         ozellik= ozellik2 ; 
+       }
+       if(secim==2){
+         ozellik= ozellik3 ; 
+       }
+       System.out.println(ozellik);
+     return ozellik;
+   }
+   
+
+    public String getSporcuIsim() {
+        return sporcuIsim;
+    }
+
+    public String getSporcuTakim() {
+        return sporcuTakim;
+    }
+ 
+
+    public void setSporcuIsim(String sporcuIsim) {
+        this.sporcuIsim = sporcuIsim;
+    }
+
+    public void setSporcuTakim(String sporcuTakim) {
+        this.sporcuTakim = sporcuTakim;
+    }
+
+   
+    
+    
+}
+
+
+
+
+
+
+
+
+
+ public class basketbolcu extends sporcu{
+   public boolean kartKullanildimi;
+   
+    private int ikilik;
+    private int ucluk;
+    private int s_atis;
+    private String img;
+    
+    public int getIkilik() {
+        return ikilik;
+    }
+
+    public void setIkilik(int ikilik) {
+        this.ikilik = ikilik;
+    }
+
+    public int getUcluk() {
+        return ucluk;
+    }
+
+    public void setUcluk(int ucluk) {
+        this.ucluk = ucluk;
+    }
+
+    public int getS_atis() {
+        return s_atis;
+    }
+
+    public void setS_atis(int s_atis) {
+        this.s_atis = s_atis;
+    }
+ 
+    
+    public basketbolcu(String sporcu_isim,String sporcu_takim,boolean kartKullanildimi, String img){
+        super(sporcu_isim,sporcu_takim);
+        this.kartKullanildimi=kartKullanildimi;
+        
+    }
+
+    @Override
+    public int sporcuPuanGoster(int ikilik,int ucluk,int s_atis){
+       test nesne =new test();
+       int secim=nesne.ozellikSec();
+       int ozellik=5;
+              
+       if(secim==0){
+        ozellik= ikilik ; 
+       }
+       if(secim==1){
+         ozellik= ucluk ; 
+       }
+       if(secim==2){
+         ozellik= s_atis ; 
+       }
+     return ozellik;
+   }
+    public String getImg() {
+        return img;
+    }
+
+    public void setImg(String img) {
+        this.img = img;
+    }
+    
+   
+  
+    
+}
+ //basketbol oyuncularinin ozellikleri tanimlandi
+class Harden extends basketbolcu {
+    private int ikilik=60;
+    private int ucluk=95;
+    private int s_atis=85;
+    private String img="Harden.png";
+   
+    @Override
+    public String getImg() {
+        return img;
+    }
+
+    @Override
+    public void setImg(String img) {
+        this.img = img;
+    }
+   
+   @Override
+    public int getIkilik() {
+        return ikilik;
+    }
+@Override
+    public void setIkilik(int ikilik) {
+        this.ikilik = ikilik;
+    }
+@Override
+    public int getUcluk() {
+        return ucluk;
+    }
+@Override
+    public void setUcluk(int ucluk) {
+        this.ucluk = ucluk;
+    }
+@Override
+    public int getS_atis() {
+        return s_atis;
+    }
+@Override
+    public void setS_atis(int s_atis) {
+        this.s_atis = s_atis;
+    }
+
+    @Override
+     public int sporcuPuanGoster(int ikilik,int ucluk,int s_atis){
+       test nesne =new test();
+       int secim=nesne.ozellikSec();
+       int ozellik=5;
+              
+       if(secim==0){
+        ozellik= ikilik ; 
+       }
+       if(secim==1){
+         ozellik= ucluk ; 
+       }
+       if(secim==2){
+         ozellik= s_atis ; 
+       }
+     return ozellik;
+   }
+    
+    
+    public Harden(String sporcu_isim, String sporcu_takim,boolean kart_kullanıldımı, String img) {        
+		super(sporcu_isim,sporcu_takim,kart_kullanıldımı,img);
+	}
+    
+}
+class Cury extends basketbolcu {
+    private int ikilik=95;
+    private int ucluk=80;
+    private int s_atis=90;
+    private String img="Cury.png";
+    @Override
+    public String getImg() {
+        return img;
+    }
+
+    @Override
+    public void setImg(String img) {
+        this.img = img;
+    }
+   
+
+   @Override
+    public int getIkilik() {
+        return ikilik;
+    }
+@Override
+    public void setIkilik(int ikilik) {
+        this.ikilik = ikilik;
+    }
+@Override
+    public int getUcluk() {
+        return ucluk;
+    }
+@Override
+    public void setUcluk(int ucluk) {
+        this.ucluk = ucluk;
+    }
+@Override
+    public int getS_atis() {
+        return s_atis;
+    }
+@Override
+    public void setS_atis(int s_atis) {
+        this.s_atis = s_atis;
+    }
+    @Override
+    public int sporcuPuanGoster(int ikilik,int ucluk,int s_atis){
+       test nesne =new test();
+       int secim=nesne.ozellikSec();
+       int ozellik=5;
+              
+       if(secim==0){
+        ozellik= ikilik ; 
+       }
+       if(secim==1){
+         ozellik= ucluk ; 
+       }
+       if(secim==2){
+         ozellik= s_atis ; 
+       }
+     return ozellik;
+   }
+    public Cury(String sporcu_isim, String sporcu_takim,boolean kart_kullanıldımı, String img) {        
+		super(sporcu_isim,sporcu_takim,kart_kullanıldımı,img);
+	}
+    
+}
+class Lebron extends basketbolcu {
+    private int ikilik=80;
+    private int ucluk=85;
+    private int s_atis=95;
+    private String img="Lebron.png";
+    @Override
+    public String getImg() {
+        return img;
+    }
+
+    @Override
+    public void setImg(String img) {
+        this.img = img;
+    }
+   
+
+   @Override
+    public int getIkilik() {
+        return ikilik;
+    }
+@Override
+    public void setIkilik(int ikilik) {
+        this.ikilik = ikilik;
+    }
+@Override
+    public int getUcluk() {
+        return ucluk;
+    }
+@Override
+    public void setUcluk(int ucluk) {
+        this.ucluk = ucluk;
+    }
+@Override
+    public int getS_atis() {
+        return s_atis;
+    }
+@Override
+    public void setS_atis(int s_atis) {
+        this.s_atis = s_atis;
+    }
+    @Override
+     public int sporcuPuanGoster(int ikilik,int ucluk,int s_atis){
+       test nesne =new test();
+       int secim=nesne.ozellikSec();
+       int ozellik=5;
+              
+       if(secim==0){
+        ozellik= ikilik ; 
+       }
+       if(secim==1){
+         ozellik= ucluk ; 
+       }
+       if(secim==2){
+         ozellik= s_atis ; 
+       }
+     return ozellik;
+   }
+    public Lebron(String sporcu_isim, String sporcu_takim,boolean kart_kullanıldımı, String img) {        
+		super(sporcu_isim,sporcu_takim,kart_kullanıldımı,img);
+	}
+    
+}
+class Durant extends basketbolcu {
+    private int ikilik=75;
+    private int ucluk=90;
+    private int s_atis=60;
+    private String img="Durant.png";
+    @Override
+    public String getImg() {
+        return img;
+    }
+
+    @Override
+    public void setImg(String img) {
+        this.img = img;
+    }
+   
+
+   @Override
+    public int getIkilik() {
+        return ikilik;
+    }
+@Override
+    public void setIkilik(int ikilik) {
+        this.ikilik = ikilik;
+    }
+@Override
+    public int getUcluk() {
+        return ucluk;
+    }
+@Override
+    public void setUcluk(int ucluk) {
+        this.ucluk = ucluk;
+    }
+@Override
+    public int getS_atis() {
+        return s_atis;
+    }
+@Override
+    public void setS_atis(int s_atis) {
+        this.s_atis = s_atis;
+    }
+   @Override
+    public int sporcuPuanGoster(int ikilik,int ucluk,int s_atis){
+       test nesne =new test();
+       int secim=nesne.ozellikSec();
+       int ozellik=5;
+              
+       if(secim==0){
+        ozellik= ikilik ; 
+       }
+       if(secim==1){
+         ozellik= ucluk ; 
+       }
+       if(secim==2){
+         ozellik= s_atis ; 
+       }
+     return ozellik;
+   }
+    public Durant(String sporcu_isim, String sporcu_takim,boolean kart_kullanıldımı, String img) {        
+		super(sporcu_isim,sporcu_takim,kart_kullanıldımı,img);
+	}
+    
+}
+class Davis extends basketbolcu {
+    private int ikilik=70;
+    private int ucluk=75;
+    private int s_atis=65;
+    private String img="Davis.png";
+    @Override
+    public String getImg() {
+        return img;
+    }
+
+    @Override
+    public void setImg(String img) {
+        this.img = img;
+    }
+   
+
+   @Override
+    public int getIkilik() {
+        return ikilik;
+    }
+@Override
+    public void setIkilik(int ikilik) {
+        this.ikilik = ikilik;
+    }
+@Override
+    public int getUcluk() {
+        return ucluk;
+    }
+@Override
+    public void setUcluk(int ucluk) {
+        this.ucluk = ucluk;
+    }
+@Override
+    public int getS_atis() {
+        return s_atis;
+    }
+@Override
+    public void setS_atis(int s_atis) {
+        this.s_atis = s_atis;
+    }
+     @Override
+    public int sporcuPuanGoster(int ikilik,int ucluk,int s_atis){
+       test nesne =new test();
+       int secim=nesne.ozellikSec();
+       int ozellik=5;
+              
+       if(secim==0){
+        ozellik= ikilik ; 
+       }
+       if(secim==1){
+         ozellik= ucluk ; 
+       }
+       if(secim==2){
+         ozellik= s_atis ; 
+       }
+     return ozellik;
+   }
+    public Davis(String sporcu_isim, String sporcu_takim,boolean kart_kullanıldımı, String img) {        
+		super(sporcu_isim,sporcu_takim,kart_kullanıldımı,img);
+	}
+    
+}
+class Wade extends basketbolcu {
+    private int ikilik=65;
+    private int ucluk=70;
+    private int s_atis=75;
+    private String img="Wade.png";
+    @Override
+    public String getImg() {
+        return img;
+    }
+
+    @Override
+    public void setImg(String img) {
+        this.img = img;
+    }
+   
+
+   @Override
+    public int getIkilik() {
+        return ikilik;
+    }
+@Override
+    public void setIkilik(int ikilik) {
+        this.ikilik = ikilik;
+    }
+@Override
+    public int getUcluk() {
+        return ucluk;
+    }
+@Override
+    public void setUcluk(int ucluk) {
+        this.ucluk = ucluk;
+    }
+@Override
+    public int getS_atis() {
+        return s_atis;
+    }
+@Override
+    public void setS_atis(int s_atis) {
+        this.s_atis = s_atis;
+    }
+    @Override
+   public int sporcuPuanGoster(int ikilik,int ucluk,int s_atis){
+       test nesne =new test();
+       int secim=nesne.ozellikSec();
+       int ozellik=5;
+              
+       if(secim==0){
+        ozellik= ikilik ; 
+       }
+       if(secim==1){
+         ozellik= ucluk ; 
+       }
+       if(secim==2){
+         ozellik= s_atis ; 
+       }
+     return ozellik;
+   }
+    public Wade(String sporcu_isim, String sporcu_takim,boolean kart_kullanıldımı, String img) {        
+		super(sporcu_isim,sporcu_takim,kart_kullanıldımı,img);
+	}
+    
+}
+class Carmelo extends basketbolcu {
+    private int ikilik=85;
+    private int ucluk=65;
+    private int s_atis=70;
+    private String img="Carmelo.png";
+    @Override
+    public String getImg() {
+        return img;
+    }
+
+    @Override
+    public void setImg(String img) {
+        this.img = img;
+    }
+   
+
+   @Override
+    public int getIkilik() {
+        return ikilik;
+    }
+@Override
+    public void setIkilik(int ikilik) {
+        this.ikilik = ikilik;
+    }
+@Override
+    public int getUcluk() {
+        return ucluk;
+    }
+@Override
+    public void setUcluk(int ucluk) {
+        this.ucluk = ucluk;
+    }
+@Override
+    public int getS_atis() {
+        return s_atis;
+    }
+@Override
+    public void setS_atis(int s_atis) {
+        this.s_atis = s_atis;
+    }
+    @Override
+   public int sporcuPuanGoster(int ikilik,int ucluk,int s_atis){
+       test nesne =new test();
+       int secim=nesne.ozellikSec();
+       int ozellik=5;
+              
+       if(secim==0){
+        ozellik= ikilik ; 
+       }
+       if(secim==1){
+         ozellik= ucluk ; 
+       }
+       if(secim==2){
+         ozellik= s_atis ; 
+       }
+     return ozellik;
+   }
+    public Carmelo(String sporcu_isim, String sporcu_takim,boolean kart_kullanıldımı, String img) {        
+		super(sporcu_isim,sporcu_takim,kart_kullanıldımı,img);
+	}
+    
+}
+class Paul extends basketbolcu {
+    private int ikilik=90;
+    private int ucluk=60;
+    private int s_atis=80;
+    
+    private String img="Paul.png";
+    @Override
+    public String getImg() {
+        return img;
+    }
+
+    @Override
+    public void setImg(String img) {
+        this.img = img;
+    }
+   
+   @Override
+    public int getIkilik() {
+        return ikilik;
+    }
+@Override
+    public void setIkilik(int ikilik) {
+        this.ikilik = ikilik;
+    }
+@Override
+    public int getUcluk() {
+        return ucluk;
+    }
+@Override
+    public void setUcluk(int ucluk) {
+        this.ucluk = ucluk;
+    }
+@Override
+    public int getS_atis() {
+        return s_atis;
+    }
+@Override
+    public void setS_atis(int s_atis) {
+        this.s_atis = s_atis;
+    }
+    @Override
+    public int sporcuPuanGoster(int ikilik,int ucluk,int s_atis){
+       test nesne =new test();
+       int secim=nesne.ozellikSec();
+       int ozellik=5;
+              
+       if(secim==0){
+        ozellik= ikilik ; 
+       }
+       if(secim==1){
+         ozellik= ucluk ; 
+       }
+       if(secim==2){
+         ozellik= s_atis ; 
+       }
+     return ozellik;
+   }
+    public Paul(String sporcu_isim, String sporcu_takim,boolean kart_kullanıldımı, String img) {        
+		super(sporcu_isim,sporcu_takim,kart_kullanıldımı,img);
+	}
+    
+}
+
+
+
+
+
+
+
+
+/**
+ *
+ * @author Arslan
+ */
+
+
+
+ public class futbolcu extends sporcu{
+
+    static Object get(int i) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+    
+    private int penalti;
+    private int frikik;
+    private int k_karsiya;
+    public boolean kartKullanildimi;
+    private String img;
+    
+    
+    public futbolcu(String sporcu_isim,String sporcu_takim,boolean kartKullanildimi, String img){
+        super(sporcu_isim,sporcu_takim);
+        this.kartKullanildimi=kartKullanildimi;
+       
+    }
+    
+   
+     public int getPenalti() {
+        return penalti;
+    }
+
+    public void setPenalti(int penalti) {
+        this.penalti = penalti;
+    }
+
+    public int getFrikik() {
+        return frikik;
+    }
+
+    public void setFrikik(int frikik) {
+        this.frikik = frikik;
+    }
+
+    public int getK_karsiya() {
+        return k_karsiya;
+    }
+
+    public void setK_karsiya(int k_karsiya) {
+        this.k_karsiya = k_karsiya;
+    }
+    
+    @Override
+    public int sporcuPuanGoster(int penalti,int frikik,int k_karsiya){
+       test nesne =new test();
+       int secim=nesne.ozellikSec();
+       int ozellik=5;
+              
+       if(secim==0){
+        ozellik= penalti ; 
+       }
+       if(secim==1){
+         ozellik= frikik ; 
+       }
+       if(secim==2){
+         ozellik= k_karsiya ; 
+       }
+     return ozellik;
+   }
+
+    public String getImg() {
+        return img;
+    }
+
+    public void setImg(String img) {
+        this.img = img;
+    }
+   
+    
+}
+//futbol oyuncularinin ozellikleri tanimlandi
+class Messi extends futbolcu {
+    private int penalti=95;
+    private int frikik=80;
+    private int k_karsiya=90;
+    private String img="Messi.png";
+
+    @Override
+    public String getImg() {
+        return img;
+    }
+
+    @Override
+    public void setImg(String img) {
+        this.img = img;
+    }
+   
+
+       @Override
+    public int getPenalti() {
+        return penalti;
+    }
+    @Override
+    public void setPenalti(int penalti) {
+        this.penalti = penalti;
+    }
+    @Override
+    public int getFrikik() {
+        return frikik;
+    }
+    @Override
+    public void setFrikik(int frikik) {
+        this.frikik = frikik;
+    }
+    @Override
+    public int getK_karsiya() {
+        return k_karsiya;
+    }
+    @Override
+    public void setK_karsiya(int k_karsiya) {
+        this.k_karsiya = k_karsiya;
+    }
+     @Override
+    public int sporcuPuanGoster(int penalti,int frikik,int k_karsiya){
+       test nesne =new test();
+       int secim=nesne.ozellikSec();
+       int ozellik=5;
+              
+       if(secim==0){
+        ozellik= penalti ; 
+       }
+       if(secim==1){
+         ozellik= frikik ; 
+       }
+       if(secim==2){
+         ozellik= k_karsiya ; 
+       }
+     return ozellik;
+   }
+    public Messi(String sporcu_isim, String sporcu_takim,boolean kart_kullanıldımı, String img) {        
+		super(sporcu_isim,sporcu_takim,kart_kullanıldımı,img);
+	}
+    
+}
+class Ronaldo extends futbolcu {
+    private int penalti=80;
+    private int frikik=85;
+    private int k_karsiya=95;
+    
+   private String img="Ronaldo.png";
+
+    @Override
+    public String getImg() {
+        return img;
+    }
+
+    @Override
+    public void setImg(String img) {
+        this.img = img;
+    }
+
+       @Override
+    public int getPenalti() {
+        return penalti;
+    }
+    @Override
+    public void setPenalti(int penalti) {
+        this.penalti = penalti;
+    }
+    @Override
+    public int getFrikik() {
+        return frikik;
+    }
+    @Override
+    public void setFrikik(int frikik) {
+        this.frikik = frikik;
+    }
+    @Override
+    public int getK_karsiya() {
+        return k_karsiya;
+    }
+    @Override
+    public void setK_karsiya(int k_karsiya) {
+        this.k_karsiya = k_karsiya;
+    }
+     @Override
+    public int sporcuPuanGoster(int penalti,int frikik,int k_karsiya){
+       test nesne =new test();
+       int secim=nesne.ozellikSec();
+       int ozellik=5;
+              
+       if(secim==0){
+        ozellik= penalti ; 
+       }
+       if(secim==1){
+         ozellik= frikik ; 
+       }
+       if(secim==2){
+         ozellik= k_karsiya ; 
+       }
+     return ozellik;
+   }
+    public Ronaldo(String sporcu_isim, String sporcu_takim,boolean kart_kullanıldımı, String img) {        
+		super(sporcu_isim,sporcu_takim,kart_kullanıldımı,img);
+	}
+    
+}
+class Neymar extends futbolcu {
+    private int penalti=75;
+    private int frikik=90;
+    private int k_karsiya=60;
+    private String img="Neymar.png";
+
+    @Override
+    public String getImg() {
+        return img;
+    }
+
+    @Override
+    public void setImg(String img) {
+        this.img = img;
+    }
+   
+
+    @Override
+    public int getPenalti() {
+        return penalti;
+    }
+    @Override
+    public void setPenalti(int penalti) {
+        this.penalti = penalti;
+    }
+    @Override
+    public int getFrikik() {
+        return frikik;
+    }
+    @Override
+    public void setFrikik(int frikik) {
+        this.frikik = frikik;
+    }
+    @Override
+    public int getK_karsiya() {
+        return k_karsiya;
+    }
+    @Override
+    public void setK_karsiya(int k_karsiya) {
+        this.k_karsiya = k_karsiya;
+    }
+    @Override
+    public int sporcuPuanGoster(int penalti,int frikik,int k_karsiya){
+       test nesne =new test();
+       int secim=nesne.ozellikSec();
+       int ozellik=5;
+              
+       if(secim==0){
+        ozellik= penalti ; 
+       }
+       if(secim==1){
+         ozellik= frikik ; 
+       }
+       if(secim==2){
+         ozellik= k_karsiya ; 
+       }
+     return ozellik;
+   }
+    public Neymar(String sporcu_isim, String sporcu_takim,boolean kart_kullanıldımı, String img) {        
+		super(sporcu_isim,sporcu_takim,kart_kullanıldımı,img);
+	}
+    
+}
+class Suarez extends futbolcu {
+    private int penalti=60;
+    private int frikik=75;
+    private int k_karsiya=85;
+    private String img="Suarez.png";
+
+    @Override
+    public String getImg() {
+        return img;
+    }
+
+    @Override
+    public void setImg(String img) {
+        this.img = img;
+    }
+   
+
+       @Override
+    public int getPenalti() {
+        return penalti;
+    }
+    @Override
+    public void setPenalti(int penalti) {
+        this.penalti = penalti;
+    }
+    @Override
+    public int getFrikik() {
+        return frikik;
+    }
+    @Override
+    public void setFrikik(int frikik) {
+        this.frikik = frikik;
+    }
+    @Override
+    public int getK_karsiya() {
+        return k_karsiya;
+    }
+    @Override
+    public void setK_karsiya(int k_karsiya) {
+        this.k_karsiya = k_karsiya;
+    }
+    @Override
+    public int sporcuPuanGoster(int penalti,int frikik,int k_karsiya){
+       test nesne =new test();
+       int secim=nesne.ozellikSec();
+       int ozellik=5;
+              
+       if(secim==0){
+        ozellik= penalti ; 
+       }
+       if(secim==1){
+         ozellik= frikik ; 
+       }
+       if(secim==2){
+         ozellik= k_karsiya ; 
+       }
+     return ozellik;
+   }
+    public Suarez(String sporcu_isim, String sporcu_takim,boolean kart_kullanıldımı, String img) {        
+		super(sporcu_isim,sporcu_takim,kart_kullanıldımı,img);
+	}
+    
+}
+class Salah extends futbolcu {
+    private int penalti=70;
+    private int frikik=95;
+    private int k_karsiya=65;
+    private String img="Salah.png";
+
+    @Override
+    public String getImg() {
+        return img;
+    }
+
+    @Override
+    public void setImg(String img) {
+        this.img = img;
+    }
+   
+
+       @Override
+    public int getPenalti() {
+        return penalti;
+    }
+    @Override
+    public void setPenalti(int penalti) {
+        this.penalti = penalti;
+    }
+    @Override
+    public int getFrikik() {
+        return frikik;
+    }
+    @Override
+    public void setFrikik(int frikik) {
+        this.frikik = frikik;
+    }
+    @Override
+    public int getK_karsiya() {
+        return k_karsiya;
+    }
+    @Override
+    public void setK_karsiya(int k_karsiya) {
+        this.k_karsiya = k_karsiya;
+    }
+    @Override
+    public int sporcuPuanGoster(int penalti,int frikik,int k_karsiya){
+       test nesne =new test();
+       int secim=nesne.ozellikSec();
+       int ozellik=5;
+              
+       if(secim==0){
+        ozellik= penalti ; 
+       }
+       if(secim==1){
+         ozellik= frikik ; 
+       }
+       if(secim==2){
+         ozellik= k_karsiya ; 
+       }
+     return ozellik;
+   }
+    public Salah(String sporcu_isim, String sporcu_takim,boolean kart_kullanıldımı, String img) {        
+		super(sporcu_isim,sporcu_takim,kart_kullanıldımı,img);
+	}
+    
+}
+class Mane extends futbolcu {
+    private int penalti=65;
+    private int frikik=70;
+    private int k_karsiya=75;
+    private String img="Mane.png";
+
+    @Override
+    public String getImg() {
+        return img;
+    }
+
+    @Override
+    public void setImg(String img) {
+        this.img = img;
+    }
+   
+
+       @Override
+    public int getPenalti() {
+        return penalti;
+    }
+    @Override
+    public void setPenalti(int penalti) {
+        this.penalti = penalti;
+    }
+    @Override
+    public int getFrikik() {
+        return frikik;
+    }
+    @Override
+    public void setFrikik(int frikik) {
+        this.frikik = frikik;
+    }
+    @Override
+    public int getK_karsiya() {
+        return k_karsiya;
+    }
+    @Override
+    public void setK_karsiya(int k_karsiya) {
+        this.k_karsiya = k_karsiya;
+    }
+    @Override
+    public int sporcuPuanGoster(int penalti,int frikik,int k_karsiya){
+       test nesne =new test();
+       int secim=nesne.ozellikSec();
+       int ozellik=5;
+              
+       if(secim==0){
+        ozellik= penalti ; 
+       }
+       if(secim==1){
+         ozellik= frikik ; 
+       }
+       if(secim==2){
+         ozellik= k_karsiya ; 
+       }
+     return ozellik;
+   }
+    public Mane(String sporcu_isim, String sporcu_takim,boolean kart_kullanıldımı, String img) {        
+		super(sporcu_isim,sporcu_takim,kart_kullanıldımı,img);
+	}
+    
+}
+class Lewandoski extends futbolcu {
+    private int penalti=85;
+    private int frikik=65;
+    private int k_karsiya=70;
+    private String img="Lewandoski.png";
+
+    @Override
+    public String getImg() {
+        return img;
+    }
+
+    @Override
+    public void setImg(String img) {
+        this.img = img;
+    }
+   
+
+    @Override 
+    public int getPenalti() {
+        return penalti;
+    }
+    @Override
+    public void setPenalti(int penalti) {
+        this.penalti = penalti;
+    }
+    @Override
+    public int getFrikik() {
+        return frikik;
+    }
+    @Override
+    public void setFrikik(int frikik) {
+        this.frikik = frikik;
+    }
+    @Override
+    public int getK_karsiya() {
+        return k_karsiya;
+    }
+    @Override
+    public void setK_karsiya(int k_karsiya) {
+        this.k_karsiya = k_karsiya;
+    }
+    @Override
+     public int sporcuPuanGoster(int penalti,int frikik,int k_karsiya){
+       test nesne =new test();
+       int secim=nesne.ozellikSec();
+       int ozellik=5;
+              
+       if(secim==0){
+        ozellik= penalti ; 
+       }
+       if(secim==1){
+         ozellik= frikik ; 
+       }
+       if(secim==2){
+         ozellik= k_karsiya ; 
+       }
+     return ozellik;
+   }
+    public Lewandoski(String sporcu_isim, String sporcu_takim,boolean kart_kullanıldımı, String img) {        
+		super(sporcu_isim,sporcu_takim,kart_kullanıldımı,img);
+	}
+    
+}
+class Modric extends futbolcu {
+    private int penalti=90;
+    private int frikik=60;
+    private int k_karsiya=80;
+    
+   private String img="Modric.png";
+
+    @Override
+    public String getImg() {
+        return img;
+    }
+
+    @Override
+    public void setImg(String img) {
+        this.img = img;
+    }
+
+   @Override
+    public int getPenalti() {
+        return penalti;
+    }
+    @Override
+    public void setPenalti(int penalti) {
+        this.penalti = penalti;
+    }
+    @Override
+    public int getFrikik() {
+        return frikik;
+    }
+    
+    @Override
+    public void setFrikik(int frikik) {
+        this.frikik = frikik;
+    }
+    @Override
+    public int getK_karsiya() {
+        return k_karsiya;
+    }
+    @Override
+    public void setK_karsiya(int k_karsiya) {
+        this.k_karsiya = k_karsiya;
+    }
+    @Override
+    public int sporcuPuanGoster(int penalti,int frikik,int k_karsiya){
+       test nesne =new test();
+       int secim=nesne.ozellikSec();
+       int ozellik=5;
+              
+       if(secim==0){
+        ozellik= penalti ; 
+       }
+       if(secim==1){
+         ozellik= frikik ; 
+       }
+       if(secim==2){
+         ozellik= k_karsiya ; 
+       }
+     return ozellik;
+   }
+    public Modric(String sporcu_isim, String sporcu_takim,boolean kart_kullanıldımı, String img) {        
+		super(sporcu_isim,sporcu_takim,kart_kullanıldımı,img);
+	}
+
+    
+}
+
+    
+
+    
+
+
+
+/**
+ *
+ * @author Arslan
+ */
+
+public  class oyuncu {
+    
+      
+    public int oyuncuID;
+    public String oyuncuAdi;
+    public int scor;
+    
+  
+   public  oyuncu(int oyuncuNo,String oyuncuIsim,int puan){
+        oyuncuID=oyuncuNo;
+        oyuncuAdi=oyuncuIsim;
+        scor=puan;
+    }
+    
+    
+    public int getOyuncuID(){
+        return oyuncuID;
+    }
+    
+    public void setOyuncuID(int oyuncuID){
+        this.oyuncuID=oyuncuID;
+    }
+    
+    public String getOyuncuAdi(){
+        return oyuncuAdi;
+    }
+    
+    public void setOyuncuAdi(String oyuncuAdi){
+        this.oyuncuAdi=oyuncuAdi;
+    }
+    
+    public int getScor(){
+        return scor;
+    }
+    
+    public void setScor(int scor){
+        this.scor=scor;
+    }
+ 
+    public void puanEkle() {
+    	this.scor+=10;
+    }
+   
+   
+    
+}
+
+
+
+
+public  class bilgisayar extends oyuncu{
+    
+      
+    public bilgisayar(int oyuncuNo,String oyuncuIsim,int puan){     
+        super(oyuncuNo,oyuncuIsim,puan);
+    }
+    
+    
+    @Override
+    public int getOyuncuID(){
+        return oyuncuID;
+    }
+    @Override
+    public void setOyuncuID(int oyuncuID){
+        this.oyuncuID=oyuncuID;
+    }
+    @Override
+    public String getOyuncuAdi(){
+        return oyuncuAdi;
+    }
+    @Override
+    public void setOyuncuAdi(String oyuncuAdi){
+        this.oyuncuAdi=oyuncuAdi;
+    }
+    @Override
+    public int getScor(){
+        return scor;
+    }
+    @Override
+    public void setScor(int scor){
+        this.scor=scor;
+    }
+    @Override
+    public void puanEkle() {
+    	this.scor+=10;
+    }
+    
+    
+}
+
+
+
+
+
+
+/**
+ *
+ * @author Arslan
+ */
+
+public class kullanıcı extends oyuncu{
+    
+    public  int scor;
+
+    
+
+     
+    public kullanıcı(int oyuncuNo,String oyuncuIsim,int puan){     
+        super(oyuncuNo,oyuncuIsim,puan);
+    }
+    
+    
+    @Override
+    public int getOyuncuID(){
+        return oyuncuID;
+    }
+    @Override
+    public void setOyuncuID(int oyuncuID){
+        this.oyuncuID=oyuncuID;
+    }
+    @Override
+    public String getOyuncuAdi(){
+        return oyuncuAdi;
+    }
+    @Override
+    public void setOyuncuAdi(String oyuncuAdi){
+        this.oyuncuAdi=oyuncuAdi;
+    }
+    @Override
+    public int getScor(){
+        return scor;
+    }
+    @Override
+    public void setScor(int scor){
+        this.scor=scor;
+    }
+    @Override
+    public void puanEkle() {
+    	this.scor+=10;
+    }
+    
+    
+    
+    
+}
+
+
+
+
+
+
+
+/**
+ *
+ * @author Arslan
+ */
+
+import java.util.ArrayList;
+import java.util.Random;
+
+public class test {
+    //kullanilan Arraylistler'in tanimlanmasi yapildi
+   static ArrayList<futbolcu> futbolcum = new ArrayList<futbolcu>();
+   static ArrayList<basketbolcu> basketbolcum = new ArrayList<basketbolcu>();
+   static ArrayList<futbolcu> kullaniciFutbolcuKart = new ArrayList<futbolcu>();
+   static ArrayList<basketbolcu> kullaniciBasketbolcuKart = new ArrayList<basketbolcu>();
+   static ArrayList<futbolcu> bilgisayarFutbolcuKart = new ArrayList<futbolcu>();
+   static ArrayList<basketbolcu> bilgisayarBasketbolcuKart = new ArrayList<basketbolcu>();
+   
+   public void testim(){	//sporcularin ozellikleri ArrayListlere atildi
+        futbolcum.add(new Messi("Messi" ,"futbolcu",false,"Messi.png" ));
+        futbolcum.add(new Ronaldo("Ronaldo","futbolcu",false,"Ronaldo.png"));
+        futbolcum.add(new Neymar("Neymar","futbolcu",false,"Neymar.png"));
+    	futbolcum.add(new Suarez("Suarez","futbolcu",false,"Suarez.png"));
+    	futbolcum.add(new Salah("Salah","futbolcu",false,"Salah.png"));
+    	futbolcum.add(new Mane("Mane","futbolcu",false,"Mane.png"));
+    	futbolcum.add(new Lewandoski("Lewandoski","futbolcu",false,"Lewandoski.png"));
+    	futbolcum.add(new Modric("Modric","futbolcu",false,"Modric.png"));
+    	
+        basketbolcum.add(new Harden("Harden","basketbolcu",false,"Harden.png"));
+    	basketbolcum.add(new Cury("Cury","basketbolcu",false,"Cury.png"));            	
+    	basketbolcum.add(new Lebron("Lebron","basketbolcu",false,"Lebron.png"));
+    	basketbolcum.add(new Durant("Durant","basketbolcu",false,"Durant.png"));
+    	basketbolcum.add(new Davis("Davis","basketbolcu",false,"Davis.png"));
+    	basketbolcum.add(new Wade("Wade","basketbolcu",false,"Wade.png"));
+    	basketbolcum.add(new Carmelo("Carmelo","basketbolcu",false,"Carmelo.png"));
+    	basketbolcum.add(new Paul("Paul","basketbolcu",false,"Paul.png"));    
+      
+    }
+   
+   //sporcular Arraylistlere karisik olarak atandi
+   public void karistir(){
+       Random rand=new Random();
+       
+       
+        for(int i=0; i<4; i++) {
+            
+    	    		int sayi = rand.nextInt(8);
+                  
+    		    if(futbolcum.get(sayi).kartKullanildimi==true) {
+    		    	i--;
+    		    	continue;
+    		    }
+    		    kullaniciFutbolcuKart.add(futbolcum.get(sayi));
+    		    futbolcum.get(sayi).kartKullanildimi=true;					
+    		}
+    		
+    		for(int i=0; i<4; i++) {	
+    					
+    				int sayi = rand.nextInt(8);
+    		    
+    		   
+    		    if(futbolcum.get(sayi).kartKullanildimi==true) {
+    		    	i--;
+    		    	continue;
+    		    }
+    		    bilgisayarFutbolcuKart.add(futbolcum.get(sayi));
+    		    futbolcum.get(sayi).kartKullanildimi=true;	
+    		    
+    		    
+    		}
+       
+       
+  
+        for(int i=0; i<4; i++) {
+            
+    	    		int sayi = rand.nextInt(8);
+                  
+    		    if(basketbolcum.get(sayi).kartKullanildimi==true) {
+    		    	i--;
+    		    	continue;
+    		    }
+    		    kullaniciBasketbolcuKart.add(basketbolcum.get(sayi));
+    		    basketbolcum.get(sayi).kartKullanildimi=true;					
+    		}
+    		
+    		for(int i=0; i<4; i++) {	
+    					
+    				int sayi = rand.nextInt(8);
+    		    
+    		   
+    		    if(basketbolcum.get(sayi).kartKullanildimi==true) {
+    		    	i--;
+    		    	continue;
+    		    }
+    		    bilgisayarBasketbolcuKart.add(basketbolcum.get(sayi));
+    		    basketbolcum.get(sayi).kartKullanildimi=true;	
+    		    
+    		    
+    		}
+       
+      
+   
+       
+   }
+   //sporcularin 3 temel ozelliginden bir tanesinin secimi yapildi
+   public int ozellikSec(){
+       Random rand=new Random();
+       int sayi;
+         sayi=rand.nextInt(3);        
+       return sayi;
+   }
+   
+}
+   
